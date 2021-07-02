@@ -16,7 +16,7 @@ jobs:
       - name: 벌쳐에 배포
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: build
+          local: dist
           remote: /app
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
