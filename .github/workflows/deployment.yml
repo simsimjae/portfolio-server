@@ -7,12 +7,14 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
+      - name: 체크아웃
+        uses: actions/checkout@v2
+      - name: 노드 설치
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - run: yarn install --frozen-lockfile && yarn build
+      - name: '패키지 설치'
+        run: yarn install --frozen-lockfile && yarn build
       - name: 벌쳐에 배포
         uses: garygrossgarten/github-action-scp@release
         with:
