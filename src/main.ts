@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
 import { AllExceptionFilter } from './common/filters/exception.filter';
 import { AppModule } from './modules/app.module';
+import cluster from 'cluster';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -18,6 +19,27 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalFilters(new AllExceptionFilter());
+
+  // 배포 관련
+  let isDisableKeepAlive = false;
+  app.use(function (req, res, next) {
+    console.log(123123, process.pid);
+
+    if (isDisableKeepAlive) {
+      res.set('Connection', 'close');
+    }
+    next();
+  });
   await app.listen(4000);
+  console.log('application is listening on port 4000');
+  if (cluster.isWorker) {
+    process.send('ready');
+  }
+  process.on('SIGINT', async () => {
+    isDisableKeepAlive = true;
+    await app.close();
+    console.log('SIGINT에 의해 서버 종료됨.');
+    process.exit(0);
+  });
 }
 bootstrap();

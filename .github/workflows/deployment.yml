@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: 'dist, node_modules, ormconfig.js'
+          source: 'dist, node_modules, ormconfig.js, echosystem.config.js'
           target: '/app/portfolio-server'
       - name: 서버시작
         uses: appleboy/ssh-action@master
