@@ -13,6 +13,7 @@
     "start:prev": "yarn prebuild && yarn schema:drop && yarn schema:sync && yarn seed:config:dev && yarn seed:run:dev",
     "start:dev": "yarn start:prev && cross-env NODE_ENV=development concurrently --handle-input \"wait-on dist/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
     "start:debug": "nest start --debug --watch",
+    "prod": "cross-env NODE_ENV=production node ./node_modules/typeorm/cli.js schema:drop && cross-env NODE_ENV=production node ./node_modules/typeorm/cli.js schema:sync && yarn seed:prod",
     "start:prod": "cross-env NODE_ENV=production pm2 start ecosystem.config.js",
     "seed:config:dev": "cross-env NODE_ENV=development node ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run:dev": "cross-env NODE_ENV=development node ./node_modules/typeorm-seeding/dist/cli.js seed",
@@ -28,7 +29,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "ddl": "mysqldump -d -uroot -proot -h localhost development | pbcopy"
+    "ddl": "mysqldump -d -uroot -proot -h localhost development | pbcopy",
+    "pm2:log": "rm -rf ~/.pm2/logs && pm2 log"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.15",
