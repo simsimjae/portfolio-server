@@ -6,6 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "skipDefaultLibCheck": true,
     "esModuleInterop": true,
     "target": "es2017",
     "sourceMap": true,
@@ -15,5 +16,5 @@
     "skipLibCheck": true,
     "noEmit": false
   },
-  "include": ["src"]
+  "include": ["src", "test"]
 }
