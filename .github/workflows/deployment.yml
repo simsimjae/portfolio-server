@@ -48,5 +48,5 @@ jobs:
             export DB_USERNAME=${{ secrets.USERNAME }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export DB_DATABASE=${{ secrets.DB_DATABASE }}
-            cd /app/portfolio-sever
+            cd /app/portfolio-server
             yarn start:prod
