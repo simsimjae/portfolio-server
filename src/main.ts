@@ -34,12 +34,12 @@ async function bootstrap() {
   console.log('application is listening on port 4000');
   if (cluster.isWorker) {
     process.send('ready');
+    process.on('SIGINT', async () => {
+      console.log('SIGINT.');
+      isDisableKeepAlive = true;
+      await app.close();
+      process.exit(0);
+    });
   }
-  process.on('SIGINT', async () => {
-    isDisableKeepAlive = true;
-    await app.close();
-    console.log('SIGINT에 의해 서버 종료됨.');
-    process.exit(0);
-  });
 }
 bootstrap();
