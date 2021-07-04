@@ -49,4 +49,4 @@ jobs:
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export DB_DATABASE=${{ secrets.DB_DATABASE }}
             cd /app/portfolio-server
-            yarn start:prod
+            pm2 reload all
