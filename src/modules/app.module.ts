@@ -1,3 +1,5 @@
+import { Token } from './auth/entities/token.entity';
+import { Review } from './reviews/entities/review.entity';
 import { Portfolio } from './portfolios/entities/portfolio.entity';
 import { Module } from '@nestjs/common';
 import { PortfoliosModule } from './portfolios/portfolios.module';
@@ -20,7 +22,7 @@ AdminBro.registerAdapter({ Database, Resource });
     TypeOrmModule.forRoot(),
     AdminModule.createAdmin({
       adminBroOptions: {
-        resources: [Portfolio],
+        resources: [Portfolio, User, Review, Token],
         rootPath: '/admin',
       },
       auth: {
