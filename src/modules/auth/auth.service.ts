@@ -1,3 +1,4 @@
+import { LoginDto } from './dto/login.dto';
 import { Token } from './entities/token.entity';
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
@@ -6,10 +7,26 @@ import { Repository } from 'typeorm';
 import { sign, verify } from 'jsonwebtoken';
 import ms from 'ms';
 import CONSTANT from '../../config/constant';
+import { CreateUserDto } from './dto/create-user.dto';
+import { ConflictException } from '@nestjs/common';
+import { compareSync } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(@InjectRepository(User) private readonly usersRepository: Repository<User>, @InjectRepository(Token) private readonly tokensRepository: Repository<Token>) {}
+
+  async loginByEmail(dto: LoginDto) {
+    const user = await this.usersRepository.findOne({ where: { email: dto.email } });
+    if (!user) throw new NotFoundException('가입되지 않은 회원입니다.');
+    if (!compareSync(dto.password, user.password)) throw new UnauthorizedException('로그인 / 비밀번호를 확인해주세요.');
+    return await this.createTokens(user.id);
+  }
+
+  async createUserByEmail(dto: CreateUserDto) {
+    const user = await this.usersRepository.findOne({ where: { email: dto.email } });
+    if (user) throw new ConflictException('이미 가입된 유저입니다.');
+    return await this.usersRepository.save(new User(dto));
+  }
 
   createAccessToken(payload) {
     return sign(payload, CONSTANT.JWT_ACCESS_SECRET, { expiresIn: CONSTANT.JWT_ACCESS_EXPIRATION });

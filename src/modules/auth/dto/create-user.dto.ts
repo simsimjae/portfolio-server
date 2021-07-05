@@ -1,7 +1,6 @@
-import { IsString, IsEmail, IsNotEmpty } from 'class-validator';
+import { IsString, IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
-  @IsString()
   @IsNotEmpty({ message: '이름이 없습니다.' })
   readonly name: string;
 
@@ -9,7 +8,9 @@ export class CreateUserDto {
   @IsNotEmpty({ message: '이메일이 없습니다.' })
   readonly email: string;
 
-  @IsString()
-  @IsNotEmpty({ message: '썸네일이 없습니다.' })
+  @IsNotEmpty({ message: '비밀번호가 없습니다.' })
+  readonly password: string;
+
+  @IsOptional()
   readonly thumbnail: string;
 }
