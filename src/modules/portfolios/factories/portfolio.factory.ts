@@ -1,7 +1,9 @@
 import Faker from 'faker';
-import { define } from 'typeorm-seeding';
+import { define, factory } from 'typeorm-seeding';
 import { Portfolio } from '../entities/portfolio.entity';
 import dayjs from 'dayjs';
+import { User } from '../../users/entities/user.entity';
+import { Review } from '../../reviews/entities/review.entity';
 
 define(Portfolio, (faker: typeof Faker) => {
   const portfolio = new Portfolio({
@@ -15,6 +17,7 @@ define(Portfolio, (faker: typeof Faker) => {
     title: faker.company.catchPhraseDescriptor(),
     techStacks: '리액트, 장고',
     type: '웹사이트',
+    writer: factory(User)() as any,
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
   });

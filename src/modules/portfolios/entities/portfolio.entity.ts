@@ -1,4 +1,5 @@
-import { AfterLoad, Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { AfterLoad, Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { PortfolioImage } from './portfolioImage.entity';
 import { Review } from '../../reviews/entities/review.entity';
 import { BaseEntity } from 'typeorm';
@@ -52,6 +53,10 @@ export class Portfolio extends BaseEntity {
 
   @OneToMany(() => Review, (review) => review.portfolio)
   reviews: Review[];
+
+  @ManyToOne(() => User, (user) => user.portfolios, { nullable: false })
+  @JoinColumn({ name: 'USER_ID' })
+  writer: User;
 
   @AfterLoad()
   sortItems() {

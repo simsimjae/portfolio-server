@@ -36,3 +36,4 @@ lerna-debug.log*
 .env.*
 .adminbro
 node_modules
+report.*.json

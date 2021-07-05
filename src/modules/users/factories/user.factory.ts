@@ -1,17 +1,19 @@
+import { Portfolio } from './../../portfolios/entities/portfolio.entity';
 import * as Faker from 'faker';
-import { define } from 'typeorm-seeding';
+import { define, factory } from 'typeorm-seeding';
 import { User } from '../../users/entities/user.entity';
+import { Review } from '../../reviews/entities/review.entity';
 
-define(User, (faker: typeof Faker) => {
-  const portfolio = new User({
+define(User, (faker: typeof Faker, context: Partial<User>) => {
+  const user = new User({
     id: faker.random.uuid(),
-    name: '관리자',
+    age: Math.round(Math.random() * 40).toString(),
+    birthday: faker.date.past(20),
+    name: faker.name.firstName() + faker.name.lastName(),
     thumbnail: `https://picsum.photos/${Math.round(Math.random() * 40 + 40)}`,
-    email: process.env.ADMIN_EMAIL,
-    password: process.env.ADMIN_PASSWORD,
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
-    role: 'admin',
+    ...context,
   });
-  return portfolio;
+  return user;
 });

@@ -1,3 +1,4 @@
+import { Portfolio } from './../../portfolios/entities/portfolio.entity';
 import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Review } from '../../reviews/entities/review.entity';
 import { Token } from '../../auth/entities/token.entity';
@@ -9,12 +10,12 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
+  @Column({ unique: true, nullable: true })
   email: string;
 
   @BeforeInsert()
   async encryptPassword() {
-    this.password = bcypt.hashSync(this.password, 10);
+    if (this.password) this.password = bcypt.hashSync(this.password, 10);
   }
 
   @Column({ nullable: true })
@@ -63,6 +64,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Review, (review) => review.writer)
   reviews: Review[];
+
+  @OneToMany(() => User, (user) => user.portfolios)
+  portfolios: Portfolio[];
 
   constructor(partial?: Partial<User>) {
     super();
