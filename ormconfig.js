@@ -11,7 +11,7 @@ module.exports = {
   entities: ['dist/**/entities/**/*.entity.js'],
   seeds: ['dist/**/seeds/**/*.seed.js'],
   factories: ['dist/**/factories/**/*.factory.js'],
-  synchronize: process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production',
+  synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
   extra: {
     connectionLimit: 10,
