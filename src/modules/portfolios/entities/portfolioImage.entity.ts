@@ -1,9 +1,9 @@
-import { Base } from '../../../common/entities/base.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Portfolio } from './portfolio.entity';
 
 @Entity()
-export class PortfolioImage extends Base {
+export class PortfolioImage extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,6 +20,15 @@ export class PortfolioImage extends Base {
     default: 'general',
   })
   type: 'thumbnail' | 'banner' | 'general';
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   constructor(partial?: Partial<PortfolioImage>) {
     super();

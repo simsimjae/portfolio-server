@@ -1,15 +1,21 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Review } from '../../reviews/entities/review.entity';
 import { Token } from '../../auth/entities/token.entity';
-import { Base } from '../../../common/entities/base.entity';
+import { BaseEntity } from 'typeorm';
+import bcypt from 'bcrypt';
 
 @Entity()
-export class User extends Base {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ nullable: true })
   email: string;
+
+  @BeforeInsert()
+  async encryptPassword() {
+    this.password = bcypt.hashSync(this.password, 10);
+  }
 
   @Column({ nullable: true })
   password: string;
@@ -32,8 +38,24 @@ export class User extends Base {
   @Column({ nullable: true })
   snsId: string;
 
+  @Column({
+    type: 'enum',
+    enum: ['general', 'admin'],
+    default: 'general',
+  })
+  role: 'general' | 'admin';
+
   @Column({ type: 'enum', enum: ['kakao', 'naver', 'email'], default: 'email' })
   provider: 'kakao' | 'naver' | 'email';
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @OneToOne(() => Token, (token) => token.user)
   @JoinColumn({ name: 'TOKEN_ID' })

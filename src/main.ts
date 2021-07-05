@@ -23,8 +23,6 @@ async function bootstrap() {
   // 배포 관련
   let isDisableKeepAlive = false;
   app.use(function (req, res, next) {
-    console.log(123123, process.pid);
-
     if (isDisableKeepAlive) {
       res.set('Connection', 'close');
     }

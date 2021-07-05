@@ -1,9 +1,8 @@
 import { User } from './../../users/entities/user.entity';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Base } from '../../../common/entities/base.entity';
+import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-export class Token extends Base {
+export class Token extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,6 +11,15 @@ export class Token extends Base {
 
   @Column()
   expiresAt: Date;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @OneToOne(() => User, (user) => user.token)
   user: User;

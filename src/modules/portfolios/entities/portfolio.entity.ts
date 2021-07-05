@@ -1,10 +1,10 @@
-import { AfterLoad, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { AfterLoad, Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { PortfolioImage } from './portfolioImage.entity';
 import { Review } from '../../reviews/entities/review.entity';
-import { Base } from '../../../common/entities/base.entity';
+import { BaseEntity } from 'typeorm';
 
 @Entity()
-export class Portfolio extends Base {
+export class Portfolio extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -37,6 +37,15 @@ export class Portfolio extends Base {
 
   @Column('int', { nullable: true })
   rank: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @OneToMany(() => PortfolioImage, (portfolioImage) => portfolioImage.portfolio, { cascade: true, onDelete: 'CASCADE' })
   images: PortfolioImage[];
