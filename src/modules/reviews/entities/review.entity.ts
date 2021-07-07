@@ -1,5 +1,5 @@
 import { User } from './../../users/entities/user.entity';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, BaseEntity, RelationId } from 'typeorm';
 import { Portfolio } from '../../portfolios/entities/portfolio.entity';
 
 @Entity()
@@ -29,6 +29,17 @@ export class Review extends BaseEntity {
   @ManyToOne(() => User, (user) => user.reviews)
   @JoinColumn({ name: 'USER_ID' })
   writer: User;
+
+  @RelationId((review: Review) => review.portfolio)
+  PORTFOLIO_ID: number | null;
+
+  @RelationId((review: Review) => review.writer)
+  USER_ID: string | null;
+
+  // @UseAsTitle()
+  // public toString(): string {
+  //   return `${this.rating} ${this.portfolio?.contents}`;
+  // }
 
   constructor(partial?: Partial<Review>) {
     super();

@@ -1,8 +1,6 @@
-import { Portfolio } from './../../portfolios/entities/portfolio.entity';
 import * as Faker from 'faker';
 import { define, factory } from 'typeorm-seeding';
 import { User } from '../../users/entities/user.entity';
-import { Review } from '../../reviews/entities/review.entity';
 
 define(User, (faker: typeof Faker, context: Partial<User>) => {
   const user = new User({

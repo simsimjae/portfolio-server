@@ -10,9 +10,9 @@ import { AuthModule } from './auth/auth.module';
 import { AdminModule } from '@admin-bro/nestjs';
 import { User } from './users/entities/user.entity';
 import AdminBro from 'admin-bro';
-import { Database, Resource } from 'admin-bro-typeorm';
 import { validate } from 'class-validator';
 import { compareSync } from 'bcrypt';
+import { Resource, Database } from '@admin-bro/typeorm';
 
 Resource.validate = validate;
 AdminBro.registerAdapter({ Database, Resource });
@@ -22,10 +22,10 @@ AdminBro.registerAdapter({ Database, Resource });
     TypeOrmModule.forRoot(),
     AdminModule.createAdmin({
       adminBroOptions: {
-        resources: [Portfolio, User, Review, Token],
+        resources: [{ resource: Portfolio, options: { properties: { contents: { type: 'richtext' } } } }, User, Review, Token],
         rootPath: '/admin',
       },
-      auth: {
+      [`${process.env.NODE_ENV === 'production' && 'auth'}`]: {
         authenticate: async (email, password) => {
           try {
             const user = await User.findOne({ where: { email, provider: 'email' } });

@@ -2467,13 +2467,6 @@ acorn@^8.0.4, acorn@^8.2.4:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.4.1.tgz#56c36251fc7cabc7096adc18f05afe814321a28c"
   integrity sha512-asabaBSkEKosYKMITunzX177CXxQ4Q8BSSzMTKD+FefUhipQC70gfW5SiUDhYQ3vk8G+81HqQk7Fv9OXwwn9KA==
 
-admin-bro-typeorm@^0.1.6-alpha.9:
-  version "0.1.6-alpha.9"
-  resolved "https://registry.yarnpkg.com/admin-bro-typeorm/-/admin-bro-typeorm-0.1.6-alpha.9.tgz#c0a147b67b338d7d62d099231db74cc0500687e5"
-  integrity sha512-27zQYlEB++mZS4lwqlqzDrjx0VGDslhcWm78EtmR7u9ZetZgHB1s8DQpDa0qan9rHRnPJzHYXKxAqFe+V6wfZQ==
-  dependencies:
-    reflect-metadata "^0.1.13"
-
 admin-bro@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/admin-bro/-/admin-bro-4.0.1.tgz#0f193371396175f235b7dd76134e04bc05e1bc3a"

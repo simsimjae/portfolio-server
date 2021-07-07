@@ -13,6 +13,7 @@ module.exports = {
   factories: ['dist/**/factories/**/*.factory.js'],
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
+  maxQueryExecutionTime: 1000,
   extra: {
     connectionLimit: 10,
   },

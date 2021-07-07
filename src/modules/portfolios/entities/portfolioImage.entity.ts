@@ -1,4 +1,4 @@
-import { BaseEntity } from 'typeorm';
+import { BaseEntity, RelationId } from 'typeorm';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Portfolio } from './portfolio.entity';
 
@@ -10,6 +10,9 @@ export class PortfolioImage extends BaseEntity {
   @ManyToOne(() => Portfolio, (portfolio) => portfolio.images)
   @JoinColumn({ name: 'PORTFOLIO_ID' })
   portfolio: Portfolio;
+
+  @RelationId((portfolioImage: PortfolioImage) => portfolioImage.portfolio)
+  PORTFOLIO_ID: number | null;
 
   @Column()
   url: string;

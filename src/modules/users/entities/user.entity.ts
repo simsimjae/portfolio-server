@@ -1,5 +1,5 @@
 import { Portfolio } from './../../portfolios/entities/portfolio.entity';
-import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn, RelationId } from 'typeorm';
 import { Review } from '../../reviews/entities/review.entity';
 import { Token } from '../../auth/entities/token.entity';
 import { BaseEntity } from 'typeorm';
@@ -65,8 +65,11 @@ export class User extends BaseEntity {
   @OneToMany(() => Review, (review) => review.writer)
   reviews: Review[];
 
-  @OneToMany(() => User, (user) => user.portfolios)
+  @OneToMany(() => Portfolio, (portfolio) => portfolio.writer)
   portfolios: Portfolio[];
+
+  @RelationId((user: User) => user.token)
+  TOKEN_ID: number | null;
 
   constructor(partial?: Partial<User>) {
     super();
