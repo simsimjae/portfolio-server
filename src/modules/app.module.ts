@@ -31,7 +31,7 @@ AdminBro.registerAdapter({ Database, Resource });
           },
           {
             resource: PortfolioImage,
-            options: { editProperties: ['type', 'image.file'] },
+            options: { editProperties: ['type', 'image.file', 'PORTFOLIO_ID'] },
             features: [
               uploadFeature({
                 properties: {
