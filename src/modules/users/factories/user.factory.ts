@@ -1,4 +1,5 @@
 import * as Faker from 'faker';
+import { sample } from 'lodash';
 import { define } from 'typeorm-seeding';
 import { User } from '../../users/entities/user.entity';
 
@@ -6,7 +7,7 @@ define(User, (faker: typeof Faker, context: Partial<User>) => {
   const user = new User({
     id: faker.random.uuid(),
     age: Math.round(Math.random() * 40).toString(),
-    email: `${faker.random.word()}@naver.com`,
+    email: `${faker.random.word() + faker.random.alphaNumeric(5)}@${sample(['naver', 'google', 'yahoo', 'daum'])}.com`,
     birthday: faker.date.past(20),
     name: faker.name.firstName() + faker.name.lastName(),
     thumbnail: `https://picsum.photos/${Math.round(Math.random() * 40 + 40)}`,

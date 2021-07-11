@@ -13,6 +13,8 @@ import AdminBro from 'admin-bro';
 import { validate } from 'class-validator';
 import { compareSync } from 'bcrypt';
 import { Resource, Database } from '@admin-bro/typeorm';
+import uploadFeature from '@admin-bro/upload';
+import { PortfolioImage } from './portfolios/entities/portfolioImage.entity';
 
 Resource.validate = validate;
 AdminBro.registerAdapter({ Database, Resource });
@@ -22,7 +24,44 @@ AdminBro.registerAdapter({ Database, Resource });
     TypeOrmModule.forRoot(),
     AdminModule.createAdmin({
       adminBroOptions: {
-        resources: [{ resource: Portfolio, options: { properties: { contents: { type: 'richtext' } } } }, User, Review, Token],
+        resources: [
+          {
+            resource: Portfolio,
+            options: { properties: { contents: { type: 'richtext' } } },
+          },
+          {
+            resource: PortfolioImage,
+            options: { editProperties: ['type', 'image.file'] },
+            features: [
+              uploadFeature({
+                properties: {
+                  // front -> back
+                  file: 'image.file',
+                  // back -> front
+                  filePath: 'url',
+                  filename: 'image.filename',
+                  filesToDelete: 'image.toDelete',
+                  // db field name
+                  key: 'key',
+                  mimeType: 'mimeType',
+                  bucket: 'bucket',
+                },
+                provider: {
+                  gcp: {
+                    bucket: 'simsimjae-portfolio.appspot.com',
+                    expires: 0,
+                  },
+                },
+                validation: { mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+                uploadPath: (record, filename) => `images/portfolios/${record.id()}/${filename}`,
+              }),
+            ],
+          },
+          PortfolioImage,
+          User,
+          Review,
+          Token,
+        ],
         rootPath: '/admin',
       },
       [`${process.env.NODE_ENV === 'production' && 'auth'}`]: {

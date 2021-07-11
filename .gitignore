@@ -37,3 +37,5 @@ lerna-debug.log*
 .adminbro
 node_modules
 report.*.json
+
+serviceAccount.json

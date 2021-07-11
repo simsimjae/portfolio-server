@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { BaseEntity, RelationId } from 'typeorm';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Portfolio } from './portfolio.entity';
@@ -23,6 +24,18 @@ export class PortfolioImage extends BaseEntity {
     default: 'general',
   })
   type: 'thumbnail' | 'banner' | 'general';
+
+  @Column({ nullable: true })
+  @Exclude()
+  key: string;
+
+  @Column({ nullable: true })
+  @Exclude()
+  mimeType: string;
+
+  @Column({ nullable: true })
+  @Exclude()
+  bucket: string;
 
   @CreateDateColumn()
   createdAt: Date;
