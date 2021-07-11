@@ -71,6 +71,10 @@ export class User extends BaseEntity {
   @RelationId((user: User) => user.token)
   TOKEN_ID: number | null;
 
+  toString() {
+    return `qwgwegwe`;
+  }
+
   constructor(partial?: Partial<User>) {
     super();
     if (partial) {

@@ -13,6 +13,7 @@ import AdminBro from 'admin-bro';
 import { validate } from 'class-validator';
 import { compareSync } from 'bcrypt';
 import { Resource, Database } from '@admin-bro/typeorm';
+import { Connection } from 'typeorm';
 
 Resource.validate = validate;
 AdminBro.registerAdapter({ Database, Resource });
@@ -20,24 +21,41 @@ AdminBro.registerAdapter({ Database, Resource });
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
-    AdminModule.createAdmin({
-      adminBroOptions: {
-        resources: [{ resource: Portfolio, options: { properties: { contents: { type: 'richtext' } } } }, User, Review, Token],
-        rootPath: '/admin',
-      },
-      [`${process.env.NODE_ENV === 'production' && 'auth'}`]: {
-        authenticate: async (email, password) => {
-          try {
-            const user = await User.findOne({ where: { email, provider: 'email' } });
-            if (compareSync(password, user.password) && user.role === 'admin') return user;
-          } catch (e) {
-            console.error(e);
-          }
-          return null;
+    // AdminModule.createAdmin({
+    //   adminBroOptions: {
+    //     resources: [{ resource: Portfolio, options: { properties: { contents: { type: 'richtext' } } } }, User, Review, Token],
+    //     rootPath: '/admin',
+    //   },
+    //   [`${process.env.NODE_ENV === 'production' && 'auth'}`]: {
+    //     authenticate: async (email, password) => {
+    //       try {
+    //         const user = await User.findOne({ where: { email, provider: 'email' } });
+    //         if (compareSync(password, user.password) && user.role === 'admin') return user;
+    //       } catch (e) {
+    //         console.error(e);
+    //       }
+    //       return null;
+    //     },
+    //     cookieName: process.env.ADMIN_EMAIL,
+    //     cookiePassword: process.env.ADMIN_PASSWORD,
+    //   },
+    // }),
+    AdminModule.createAdminAsync({
+      inject: [Connection],
+      useFactory: (conn: Connection) => ({
+        adminBroOptions: {
+          rootPath: '/admin',
+          databases: [conn],
+          // also you can define a "resources" field instead of "databases"
+          // if you want to handling only specified entities
+          // resources: [UserEntity], // you don't need to inject the repository, just import
         },
-        cookieName: process.env.ADMIN_EMAIL,
-        cookiePassword: process.env.ADMIN_PASSWORD,
-      },
+        auth: {
+          authenticate: (email, password) => Promise.resolve({ email: 'test' }),
+          cookieName: 'test',
+          cookiePassword: 'testPass',
+        },
+      }),
     }),
     AuthModule,
     PortfoliosModule,

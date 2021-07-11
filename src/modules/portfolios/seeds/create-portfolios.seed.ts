@@ -1,10 +1,12 @@
+import { User } from '../../../modules/users/entities/user.entity';
 import { Seeder, Factory } from 'typeorm-seeding';
 import { Portfolio } from '../entities/portfolio.entity';
 import { PortfolioImage } from '../entities/portfolioImage.entity';
 
 export default class CreatePortfolios implements Seeder {
   public async run(factory: Factory): Promise<void> {
-    const portfolioFactory = factory(Portfolio)();
+    const portfolioFactory = await factory(Portfolio)();
+
     portfolioFactory
       .map(async (portfolio) => {
         const bannerImage = await factory(PortfolioImage)({ type: 'banner' }).create();
