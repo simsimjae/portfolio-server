@@ -35,6 +35,8 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /app/portfolio-server
+            git fetch --all
+            git reset --hard HEAD
             git pull
             yarn
             yarn build
