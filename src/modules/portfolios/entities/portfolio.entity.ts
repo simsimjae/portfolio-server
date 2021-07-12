@@ -61,6 +61,15 @@ export class Portfolio extends BaseEntity {
   @RelationId((portfolio: Portfolio) => portfolio.writer)
   USER_ID: string | null;
 
+  banner?: string;
+  thumbnail?: string;
+
+  @AfterLoad()
+  getImages() {
+    this.banner = this.images?.find((image) => image.type === 'banner')?.url;
+    this.thumbnail = this.images?.find((image) => image.type === 'thumbnail')?.url;
+  }
+
   @AfterLoad()
   sortItems() {
     this.reviews?.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());

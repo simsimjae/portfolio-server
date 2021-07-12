@@ -27,7 +27,15 @@ AdminBro.registerAdapter({ Database, Resource });
         resources: [
           {
             resource: Portfolio,
-            options: { properties: { contents: { type: 'richtext' } } },
+            options: {
+              properties: {
+                contents: {
+                  list: AdminBro.bundle('./modules/admin/components/Editor/Editor.tsx'),
+                  edit: AdminBro.bundle('./modules/admin/components/Editor/Editor.tsx'),
+                  show: AdminBro.bundle('./modules/admin/components/Editor/Editor.tsx'),
+                },
+              },
+            },
           },
           {
             resource: PortfolioImage,
@@ -35,14 +43,13 @@ AdminBro.registerAdapter({ Database, Resource });
             features: [
               uploadFeature({
                 properties: {
-                  // front -> back
                   file: 'image.file',
-                  // back -> front
                   filePath: 'url',
                   filename: 'image.filename',
                   filesToDelete: 'image.toDelete',
                   // db field name
                   key: 'key',
+                  size: 'size',
                   mimeType: 'mimeType',
                   bucket: 'bucket',
                 },
@@ -57,7 +64,6 @@ AdminBro.registerAdapter({ Database, Resource });
               }),
             ],
           },
-          PortfolioImage,
           User,
           Review,
           Token,

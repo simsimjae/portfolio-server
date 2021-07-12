@@ -1,22 +1,13 @@
 import { Exclude } from 'class-transformer';
-import { BaseEntity, RelationId } from 'typeorm';
+import { AfterLoad, BaseEntity, RelationId, Unique } from 'typeorm';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Portfolio } from './portfolio.entity';
 
 @Entity()
+@Unique(['bucket', 'key'])
 export class PortfolioImage extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @ManyToOne(() => Portfolio, (portfolio) => portfolio.images)
-  @JoinColumn({ name: 'PORTFOLIO_ID' })
-  portfolio: Portfolio;
-
-  @RelationId((portfolioImage: PortfolioImage) => portfolioImage.portfolio)
-  PORTFOLIO_ID: number | null;
-
-  @Column()
-  url: string;
 
   @Column({
     type: 'enum',
@@ -27,24 +18,45 @@ export class PortfolioImage extends BaseEntity {
 
   @Column({ nullable: true })
   @Exclude()
+  bucket: string;
+
+  @Column({ nullable: true })
+  @Exclude()
   key: string;
+
+  @Column({ nullable: true })
+  @Exclude()
+  size: string;
 
   @Column({ nullable: true })
   @Exclude()
   mimeType: string;
 
-  @Column({ nullable: true })
-  @Exclude()
-  bucket: string;
-
   @CreateDateColumn()
+  @Exclude()
   createdAt: Date;
 
   @UpdateDateColumn()
+  @Exclude()
   updatedAt: Date;
 
   @DeleteDateColumn()
+  @Exclude()
   deletedAt: Date;
+
+  url?: string;
+
+  @AfterLoad()
+  getImageUrl() {
+    this.url = `https://storage.googleapis.com/${this.bucket}/${this.key}`;
+  }
+
+  @ManyToOne(() => Portfolio, (portfolio) => portfolio.images)
+  @JoinColumn({ name: 'PORTFOLIO_ID' })
+  portfolio: Portfolio;
+
+  @RelationId((portfolioImage: PortfolioImage) => portfolioImage.portfolio)
+  PORTFOLIO_ID: number | null;
 
   constructor(partial?: Partial<PortfolioImage>) {
     super();
