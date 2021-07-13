@@ -31,7 +31,7 @@ AdminBro.registerAdapter({ Database, Resource });
               properties: {
                 contents: {
                   components: {
-                    list: AdminBro.bundle('../../src/modules/admin/components/Editor/Editor.tsx'),
+                    // list: AdminBro.bundle('../../src/modules/admin/components/Editor/Editor.tsx'),
                     edit: AdminBro.bundle('../../src/modules/admin/components/Editor/Editor.tsx'),
                     show: AdminBro.bundle('../../src/modules/admin/components/Editor/Editor.tsx'),
                   },
