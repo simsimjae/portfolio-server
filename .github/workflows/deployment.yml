@@ -9,8 +9,6 @@ jobs:
     steps:
       - name: 체크아웃
         uses: actions/checkout@v2
-     - name: 체크아웃
-        uses: actions/checkout@v2
       - name: 노드 설치
         uses: actions/setup-node@v1
         with:
