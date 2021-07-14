@@ -2,6 +2,7 @@ import { User } from './../../users/entities/user.entity';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, BaseEntity, RelationId } from 'typeorm';
 import { Portfolio } from '../../portfolios/entities/portfolio.entity';
 import { IsNotEmpty } from 'class-validator';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Review extends BaseEntity {
@@ -23,6 +24,7 @@ export class Review extends BaseEntity {
   updatedAt: Date;
 
   @DeleteDateColumn()
+  @Exclude()
   deletedAt: Date;
 
   @ManyToOne(() => Portfolio, (portfolio) => portfolio.reviews)

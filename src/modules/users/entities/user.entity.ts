@@ -4,6 +4,7 @@ import { Review } from '../../reviews/entities/review.entity';
 import { Token } from '../../auth/entities/token.entity';
 import { BaseEntity } from 'typeorm';
 import bcypt from 'bcrypt';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User extends BaseEntity {
@@ -19,6 +20,7 @@ export class User extends BaseEntity {
   }
 
   @Column({ nullable: true })
+  @Exclude()
   password: string;
 
   @Column({ nullable: true })
@@ -34,9 +36,11 @@ export class User extends BaseEntity {
   thumbnail: string;
 
   @Column({ default: true })
+  @Exclude()
   isActive: boolean;
 
   @Column({ nullable: true })
+  @Exclude()
   snsId: string;
 
   @Column({
@@ -44,9 +48,11 @@ export class User extends BaseEntity {
     enum: ['general', 'admin'],
     default: 'general',
   })
+  @Exclude()
   role: 'general' | 'admin';
 
   @Column({ type: 'enum', enum: ['kakao', 'naver', 'email'], default: 'email' })
+  @Exclude()
   provider: 'kakao' | 'naver' | 'email';
 
   @CreateDateColumn()
@@ -56,10 +62,12 @@ export class User extends BaseEntity {
   updatedAt: Date;
 
   @DeleteDateColumn()
+  @Exclude()
   deletedAt: Date;
 
   @OneToOne(() => Token, (token) => token.user)
   @JoinColumn({ name: 'TOKEN_ID' })
+  @Exclude()
   token: Token;
 
   @OneToMany(() => Review, (review) => review.writer)
@@ -69,11 +77,8 @@ export class User extends BaseEntity {
   portfolios: Portfolio[];
 
   @RelationId((user: User) => user.token)
+  @Exclude()
   TOKEN_ID: number | null;
-
-  toString() {
-    return `qwgwegwe`;
-  }
 
   constructor(partial?: Partial<User>) {
     super();

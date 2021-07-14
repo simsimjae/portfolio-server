@@ -12,13 +12,13 @@ export class ReviewsService {
 
   async findAll(query) {
     if (query.portfolioId) {
-      return await this.reviewsRepository.find({ where: { portfolio: query.portfolioId } });
+      return await this.reviewsRepository.find({ where: { portfolio: query.portfolioId }, relations: ['writer'], order: { createdAt: 'DESC' } });
     }
     return this.reviewsRepository.find();
   }
 
   async findOne(id) {
-    return this.reviewsRepository.findOne(id);
+    return this.reviewsRepository.findOne(id, { relations: ['users'] });
   }
 
   async createOne(dto: CreateReviewDto, user: User) {
