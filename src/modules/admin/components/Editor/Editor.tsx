@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, FormEvent, useState } from 'reac
 import { Editor as ToastUIReactEditor } from '@toast-ui/react-editor';
 import { EditorStyled } from './Editor.styles';
 import FileUtils from './utils/FileUtils';
-import { Box } from '@chakra-ui/react';
+import { Box, ChakraProvider } from '@chakra-ui/react';
 import UploadingModal from './uploadingModal';
 import { EditorFullGlobal } from './Editor.fullstyles';
 import { EditPropertyProps } from 'admin-bro';
@@ -52,15 +52,17 @@ const Editor = (props: EditorProps) => {
   }, []);
 
   return (
-    <EditorStyled>
-      <h3 className="title">{property?.label}</h3>
-      <Box h="full" className="div100vh" position="relative">
-        {isReadOnly && <Box dangerouslySetInnerHTML={{ __html: record.params?.contents }}></Box>}
-        {!isReadOnly && <ToastUIReactEditor initialEditType="wysiwyg" height="100%" initialValue={removeAllBrTag(record.params?.contents)} ref={editorRef!} placeholder="본문을 입력해주세요" onChange={handleChange} />}
-        <EditorFullGlobal />
-        <UploadingModal isOpen={isUploading} />
-      </Box>
-    </EditorStyled>
+    <ChakraProvider>
+      <EditorStyled>
+        <h3 className="title">{property?.label}</h3>
+        <Box h="full" className="div100vh" position="relative">
+          {isReadOnly && <Box dangerouslySetInnerHTML={{ __html: record.params?.contents }}></Box>}
+          {!isReadOnly && <ToastUIReactEditor initialEditType="wysiwyg" height="100%" initialValue={removeAllBrTag(record.params?.contents)} ref={editorRef!} placeholder="본문을 입력해주세요" onChange={handleChange} />}
+          <EditorFullGlobal />
+          <UploadingModal isOpen={isUploading} />
+        </Box>
+      </EditorStyled>
+    </ChakraProvider>
   );
 };
 

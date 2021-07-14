@@ -29,6 +29,12 @@ class FileUtils {
 
     return Promise.all(promises).then((dataUris) => dataUris);
   };
+
+  static getTimestampFileName = async (file) => {
+    const fileNameSplit = file.originalname.split('.');
+    const fileExt = fileNameSplit.pop();
+    return `${Date.now()}.${fileExt}`;
+  };
 }
 
 export default FileUtils;

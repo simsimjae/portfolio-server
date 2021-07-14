@@ -6,14 +6,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { sign, verify } from 'jsonwebtoken';
 import ms from 'ms';
-import CONSTANT from '../../config/constant';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ConflictException } from '@nestjs/common';
 import { compareSync } from 'bcrypt';
+import { ConfigService } from '../config/config.service';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectRepository(User) private readonly usersRepository: Repository<User>, @InjectRepository(Token) private readonly tokensRepository: Repository<Token>) {}
+  constructor(private readonly configService: ConfigService, @InjectRepository(User) private readonly usersRepository: Repository<User>, @InjectRepository(Token) private readonly tokensRepository: Repository<Token>) {}
 
   async loginByEmail(dto: LoginDto) {
     const user = await this.usersRepository.findOne({ where: { email: dto.email } });
@@ -29,11 +29,11 @@ export class AuthService {
   }
 
   createAccessToken(payload) {
-    return sign(payload, CONSTANT.JWT_ACCESS_SECRET, { expiresIn: CONSTANT.JWT_ACCESS_EXPIRATION });
+    return sign(payload, this.configService.get('JWT_ACCESS_SECRET'), { expiresIn: this.configService.get('JWT_ACCESS_EXPIRATION') });
   }
 
   createRefreshToken(payload) {
-    return sign(payload, CONSTANT.JWT_REFRESH_SECRET, { expiresIn: CONSTANT.JWT_REFRESH_EXPIRATION });
+    return sign(payload, this.configService.get('JWT_REFRESH_SECRET'), { expiresIn: this.configService.get('JWT_REFRESH_EXPIRATION') });
   }
 
   createTokens(id: number | string) {
@@ -43,22 +43,22 @@ export class AuthService {
   getCookieWithJwtAccessToken(id: number | string) {
     return {
       accessToken: this.createAccessToken({ id }),
-      domain: CONSTANT.DOMAIN,
+      domain: this.configService.get('COOKIE_DOMAIN'),
       path: '/',
       httpOnly: true,
       sameSite: 'strict',
-      maxAge: ms(CONSTANT.JWT_ACCESS_EXPIRATION),
+      maxAge: ms(this.configService.get('JWT_ACCESS_EXPIRATION')),
     } as const;
   }
 
   getCookieWithJwtRefreshToken(id: number | string) {
     return {
       refreshToken: this.createRefreshToken({ id }),
-      domain: CONSTANT.DOMAIN,
+      domain: this.configService.get('COOKIE_DOMAIN'),
       path: '/',
       httpOnly: true,
       sameSite: 'strict',
-      maxAge: ms(CONSTANT.JWT_REFRESH_EXPIRATION),
+      maxAge: ms(this.configService.get('JWT_REFRESH_EXPIRATION')),
     } as const;
   }
 
@@ -66,7 +66,7 @@ export class AuthService {
     const token = await this.tokensRepository.findOne({ refresh: refreshToken });
     if (!token) throw new NotFoundException('refresh token is not found');
     if (token.expiresAt < new Date()) throw new UnauthorizedException('refresh token is expired');
-    const { id } = verify(refreshToken, CONSTANT.JWT_REFRESH_SECRET) as any;
+    const { id } = verify(refreshToken, this.configService.get('JWT_REFRESH_SECRET')) as any;
     return this.createAccessToken({ id });
   }
 

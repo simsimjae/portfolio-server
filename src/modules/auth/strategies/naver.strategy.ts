@@ -2,18 +2,18 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-naver';
 import { User } from '../../users/entities/user.entity';
-import CONSTANT from '../../../config/constant';
 import { AuthService } from '../auth.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ConfigService } from '../../../modules/config/config.service';
 
 @Injectable()
 export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
-  constructor(@InjectRepository(User) private readonly usersRepository: Repository<User>) {
+  constructor(@InjectRepository(User) private readonly usersRepository: Repository<User>, private readonly configService: ConfigService) {
     super({
-      clientID: CONSTANT.NAVER_CLIENT_ID,
-      clientSecret: CONSTANT.NAVER_CLIENT_SECRET,
-      callbackURL: CONSTANT.NAVER_CALLBACK_URL,
+      clientID: configService.get('NAVER_CLIENT_ID'),
+      clientSecret: configService.get('NAVER_CLIENT_SECRET'),
+      callbackURL: configService.get('NAVER_CALLBACK_URL'),
     });
   }
 

@@ -2,17 +2,17 @@ import { UsersService } from '../../users/users.service';
 import { Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import CONSTANT from '../../../config/constant';
+import { ConfigService } from '../../../modules/config/config.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(private readonly usersService: UsersService) {
+  constructor(private readonly usersService: UsersService, private readonly configService: ConfigService) {
     super({
       jwtFromRequest: (req) => {
         return req.cookies ? req.cookies['ACCESS_TOKEN'] : null;
       },
       passReqToCallback: false,
-      secretOrKey: CONSTANT.JWT_ACCESS_SECRET,
+      secretOrKey: configService.get('JWT_ACCESS_SECRET'),
     });
   }
 

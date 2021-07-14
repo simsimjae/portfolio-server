@@ -2,17 +2,17 @@ import { User } from './../../users/entities/user.entity';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-kakao';
-import CONSTANT from '../../../config/constant';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Token } from '../entities/token.entity';
+import { ConfigService } from '../../../modules/config/config.service';
 
 @Injectable()
 export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
-  constructor(@InjectRepository(User) private readonly usersRepository: Repository<User>) {
+  constructor(@InjectRepository(User) private readonly usersRepository: Repository<User>, private readonly configService: ConfigService) {
     super({
-      clientID: CONSTANT.KAKAO_APPKEY,
-      callbackURL: CONSTANT.KAKAO_CALLBACK_URL,
+      clientID: configService.get('KAKAO_APPKEY'),
+      callbackURL: configService.get('KAKAO_CALLBACK_URL'),
     });
   }
 
