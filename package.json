@@ -13,7 +13,7 @@
     "start:dev": "yarn start:prev && cross-env NODE_ENV=development concurrently --handle-input \"wait-on dist/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
     "start:debug": "nest start --debug --watch",
     "prod": "cross-env NODE_ENV=production node ./node_modules/typeorm/cli.js schema:drop && cross-env NODE_ENV=production node ./node_modules/typeorm/cli.js schema:sync && yarn seed:prod",
-    "start:prod": "cross-env NODE_ENV=production pm2 start ecosystem.config.js",
+    "start:prod": "yarn build && cross-env NODE_ENV=production pm2 start ecosystem.config.js",
     "reload:prod": "cross-env NODE_ENV=production pm2 reload all",
     "seed:config:dev": "cross-env NODE_ENV=development node ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run:dev": "cross-env NODE_ENV=development node ./node_modules/typeorm-seeding/dist/cli.js seed",
