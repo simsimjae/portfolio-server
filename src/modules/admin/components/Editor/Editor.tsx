@@ -14,8 +14,6 @@ interface EditorProps {
   onChange: EditPropertyProps['onChange'];
 }
 
-const bucketPath = 'portfolios/images';
-
 const Editor = (props: EditorProps) => {
   const editorRef = useRef<ToastUIReactEditor>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -37,7 +35,9 @@ const Editor = (props: EditorProps) => {
   const onImageChanged = useCallback(async (file: File, renderImage: (imageUrl: string, altText: string) => any) => {
     setIsUploading(true);
     const compressedFile = await FileUtils.compressFile(file);
-    const imageUrl = (await axios.post('/admin/image', { bucketPath, file: compressedFile })).data;
+    const formData = new FormData();
+    formData.append('image', compressedFile);
+    const imageUrl = (await axios.post('/api/admin/image', formData)).data;
     renderImage(imageUrl, '피드 이미지');
     setIsUploading(false);
   }, []);

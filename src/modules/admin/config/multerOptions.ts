@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import MulterGoogleCloudStorage from 'multer-cloud-storage';
-import { serviceAccount } from './serviceAccount';
+import serviceAccount from './serviceAccount';
 
 const bucket = 'archive-319715.appspot.com';
 const destination = 'portfolios/images';
