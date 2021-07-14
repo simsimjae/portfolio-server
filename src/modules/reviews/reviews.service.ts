@@ -18,7 +18,7 @@ export class ReviewsService {
   }
 
   async findOne(id) {
-    return this.reviewsRepository.findOne(id, { relations: ['users'] });
+    return this.reviewsRepository.findOne(id, { relations: ['writer'] });
   }
 
   async createOne(dto: CreateReviewDto, user: User) {

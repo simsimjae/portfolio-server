@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import { AllExceptionFilter } from './common/filters/exception.filter';
 import { AppModule } from './modules/app.module';
 import cluster from 'cluster';
+import { ResizeImageInterceptor } from './common/interceptors/resize-image.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -17,7 +18,7 @@ async function bootstrap() {
       transform: true, // 요청에서 넘어온 자료들의 형변환
     }),
   );
-  app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalInterceptors(new TransformInterceptor(), new ResizeImageInterceptor());
   app.useGlobalFilters(new AllExceptionFilter());
 
   // 배포 관련
