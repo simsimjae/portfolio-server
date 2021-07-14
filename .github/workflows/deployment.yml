@@ -34,6 +34,7 @@ jobs:
           key: ${{ secrets.SSHKEY }}
           port: ${{ secrets.PORT }}
           script: |
+            export NODE_OPTIONS=--max_old_space_size=4096
             cd /app/portfolio-server
             git fetch --all
             git reset --hard HEAD
