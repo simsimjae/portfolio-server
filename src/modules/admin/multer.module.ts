@@ -19,7 +19,7 @@ export const MulterModule = NestMulterModule.registerAsync({
       destination: configService.get('GCP_BUCKET_PATH'),
       credentials: require(configService.get('GOOGLE_APPLICATION_CREDENTIALS')),
       acl: 'publicRead',
-      filename: (req, file, cb) => cb(null, `${Date.now()}.${file.originalname.split('.').pop()}`),
+      filename: (req, file, cb) => cb(null, `${file.fieldname}-${Date.now()}`),
     }),
   }),
 });

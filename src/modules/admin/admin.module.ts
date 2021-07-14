@@ -20,6 +20,11 @@ import { PortfolioImageResource } from './resources/portfolio-image.resource';
           resources: [PortfolioResource, PortfolioImageResource(configService.get('GCP_BUCKET_NAME'), configService.get('GCP_BUCKET_PATH')), User, Review, Token],
           rootPath: '/admin',
         },
+        sessionOptions: {
+          resave: false,
+          secret: configService.get('ADMIN_PASSWORD'),
+          saveUninitialized: true,
+        },
         [`${process.env.NODE_ENV === 'production' && 'auth'}`]: {
           authenticate: async (email, password) => {
             try {
