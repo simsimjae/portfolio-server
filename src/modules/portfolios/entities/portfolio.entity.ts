@@ -48,7 +48,7 @@ export class Portfolio extends BaseEntity {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => PortfolioImage, (portfolioImage) => portfolioImage.portfolio, { cascade: true, onDelete: 'CASCADE' })
+  @OneToMany(() => PortfolioImage, (portfolioImage) => portfolioImage.portfolio, { cascade: true })
   images: PortfolioImage[];
 
   @OneToMany(() => Review, (review) => review.portfolio)

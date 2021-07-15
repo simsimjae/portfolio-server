@@ -27,7 +27,7 @@ export class Review extends BaseEntity {
   @Exclude()
   deletedAt: Date;
 
-  @ManyToOne(() => Portfolio, (portfolio) => portfolio.reviews)
+  @ManyToOne(() => Portfolio, (portfolio) => portfolio.reviews, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'PORTFOLIO_ID' })
   portfolio: Portfolio;
 

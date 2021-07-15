@@ -43,7 +43,7 @@ export class PortfolioImage extends BaseEntity {
     this.url = `https://storage.googleapis.com/${this.bucket}/${this.key}`;
   }
 
-  @ManyToOne(() => Portfolio, (portfolio) => portfolio.images)
+  @ManyToOne(() => Portfolio, (portfolio) => portfolio.images, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'PORTFOLIO_ID' })
   portfolio: Portfolio;
 
