@@ -39,7 +39,8 @@ export class GCPProvider extends BaseProvider {
   public async upload(file: UploadedFile, key: string): Promise<UploadResponse> {
     return this.storage.bucket(this.bucket).upload(file.path, {
       gzip: false,
-      destination: `${key.split('.')[0]}.webp`,
+      destination: `${key.split('.')[0]}`,
+      contentType: 'image/webp',
       predefinedAcl: this.expires === 0 ? 'publicRead' : 'private',
     });
   }

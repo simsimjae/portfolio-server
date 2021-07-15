@@ -84,7 +84,7 @@ export const modifyImage = async ({
   const shouldFormatImage = format !== 'false';
   const imageContentType = shouldFormatImage ? supportedImageContentTypeMap[format] : contentType;
   // const modifiedExtensionName = fileExtension && shouldFormatImage ? `.${format}` : fileExtension;
-  const modifiedFileName = `${fileNameWithoutExtension}.${format}`;
+  const modifiedFileName = `${fileNameWithoutExtension}`;
 
   // Path where modified image will be uploaded to in Storage.
   const modifiedFilePath = path.normalize(config.resizedImagesPath ? path.join(fileDir, config.resizedImagesPath, modifiedFileName) : path.join(fileDir, modifiedFileName));
@@ -136,6 +136,7 @@ export const modifyImage = async ({
     logs.imageUploading(modifiedFilePath);
     await bucket.upload(modifiedFile, {
       destination: modifiedFilePath,
+      contentType: 'image/webp',
       metadata,
     });
     logs.imageUploaded(modifiedFile);

@@ -87,7 +87,7 @@ export const generateResizedImage = functions
       // Download file from bucket.
       remoteFile = bucket.file(filePath!);
       logs.imageDownloading(filePath!);
-      await remoteFile.download({ destination: originalFile, validation: false });
+      await remoteFile.download({ destination: originalFile });
       logs.imageDownloaded(filePath!, originalFile);
 
       // Get a unique list of image types
