@@ -12,6 +12,14 @@ export class PortfoliosService {
     return await this.portfolioRepository.findOne(id, { relations: ['images'] });
   }
 
+  async findAllBanners({ limit, offset }) {
+    return await this.portfolioImageRepository.find({ where: { type: 'banner' }, order: { createdAt: 'DESC' }, take: limit, skip: offset });
+  }
+
+  async findAllThumbnails({ limit, offset }) {
+    return await this.portfolioImageRepository.find({ where: { type: 'thumbnail' }, order: { createdAt: 'DESC' }, take: limit, skip: offset });
+  }
+
   async findAll() {
     return await this.portfolioRepository.find({ order: { createdAt: 'DESC' }, relations: ['images'] });
   }

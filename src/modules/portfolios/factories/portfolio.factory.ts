@@ -3,7 +3,6 @@ import { define, factory } from 'typeorm-seeding';
 import { Portfolio } from '../entities/portfolio.entity';
 import dayjs from 'dayjs';
 import { User } from '../../users/entities/user.entity';
-import { Review } from '../../reviews/entities/review.entity';
 
 define(Portfolio, (faker: typeof Faker) => {
   const portfolio = new Portfolio({

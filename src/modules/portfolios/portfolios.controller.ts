@@ -1,9 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req } from '@nestjs/common';
+import { PagingDto } from '../../common/dto/paging.dto';
 import { PortfoliosService } from './portfolios.service';
 
 @Controller('portfolios')
 export class PortfoliosController {
   constructor(private readonly portfoliosService: PortfoliosService) {}
+  @Get('banners')
+  async findBanners(@Query() dto: PagingDto) {
+    return await this.portfoliosService.findAllBanners(dto);
+  }
+
+  @Get('thumbnails')
+  async findThumbnails(@Query() dto: PagingDto) {
+    return await this.portfoliosService.findAllThumbnails(dto);
+  }
 
   @Get(':id')
   async findOne(@Param('id') id) {

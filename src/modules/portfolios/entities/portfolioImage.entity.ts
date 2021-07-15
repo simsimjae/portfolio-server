@@ -4,7 +4,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToO
 import { Portfolio } from './portfolio.entity';
 
 @Entity()
-@Unique(['bucket', 'key'])
+// @Unique(['bucket', 'key', 'type'])
 export class PortfolioImage extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;

@@ -9,12 +9,13 @@ import { validate } from 'class-validator';
 import { Resource, Database } from '@admin-bro/typeorm';
 import { AdminModule } from './admin/admin.module';
 import { ConfigModule } from './config/config.module';
+import { LoggerModule } from 'nestjs-pino';
 
 Resource.validate = validate;
 AdminBro.registerAdapter({ Database, Resource });
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forRoot(), AdminModule, AuthModule, PortfoliosModule, UserModule, ReviewsModule],
+  imports: [ConfigModule, LoggerModule.forRoot({ pinoHttp: { level: 'info', prettyPrint: true, useLevelLabels: true } }), TypeOrmModule.forRoot(), AdminModule, AuthModule, PortfoliosModule, UserModule, ReviewsModule],
   controllers: [],
   providers: [],
 })

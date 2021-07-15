@@ -5,11 +5,12 @@ import cookieParser from 'cookie-parser';
 import { AllExceptionFilter } from './common/filters/exception.filter';
 import { AppModule } from './modules/app.module';
 import cluster from 'cluster';
-import { ResizeImageInterceptor } from './common/interceptors/resize-image.interceptor';
+import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule, { cors: true, logger: false });
   app.setGlobalPrefix('api');
+  app.useLogger(app.get(Logger));
   app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({

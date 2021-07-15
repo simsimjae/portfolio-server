@@ -140,8 +140,10 @@ export const modifyImage = async ({
       metadata,
     });
     logs.imageUploaded(modifiedFile);
+    return { success: true };
   } catch (err) {
     logs.error(err);
+    return { success: false };
   } finally {
     try {
       // Make sure the local resized file is cleaned up to free up disk space.
