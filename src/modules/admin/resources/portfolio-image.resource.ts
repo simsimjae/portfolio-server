@@ -1,5 +1,6 @@
 import uploadFeature from '@admin-bro/upload';
 import { ResourceOptions } from 'admin-bro';
+import { uid } from 'uid';
 import { PortfolioImage } from '../../../modules/portfolios/entities/portfolioImage.entity';
 import { GCPProvider } from '../providers/gcs-upload.provider';
 
@@ -27,7 +28,7 @@ export const PortfolioImageResource = (bucket, path) => {
         },
         provider: gcpProvider,
         validation: { mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-        uploadPath: (record, filename) => `${path}/${Date.now()}`,
+        uploadPath: (record, filename) => `${path}/${uid(10)}`,
       }),
     ],
   };
