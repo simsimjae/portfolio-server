@@ -3,6 +3,7 @@ import { MulterModule as NestMulterModule } from '@nestjs/platform-express';
 import { BadRequestException, Module } from '@nestjs/common';
 import MulterGoogleCloudStorage from 'multer-cloud-storage';
 
+/** 에디터 내에서 업로드 되는 이미지를 처리합니다. */
 export const MulterModule = NestMulterModule.registerAsync({
   inject: [ConfigService],
   useFactory: async (configService: ConfigService) => ({

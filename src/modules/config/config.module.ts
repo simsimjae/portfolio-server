@@ -28,6 +28,7 @@ export const validationSchema = Joi.object({
   GCP_PROJECT_ID: Joi.string().required(),
   GCP_BUCKET_NAME: Joi.string().required(),
   GCP_BUCKET_PATH: Joi.string().required(),
+  IMAGE_SIZES: Joi.string().required(),
 });
 
 @Module({

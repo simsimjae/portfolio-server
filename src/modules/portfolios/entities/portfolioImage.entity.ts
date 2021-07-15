@@ -44,7 +44,7 @@ export class PortfolioImage extends BaseEntity {
   @Exclude()
   deletedAt: Date;
 
-  url?: string;
+  url: string;
 
   @AfterLoad()
   getImageUrl() {

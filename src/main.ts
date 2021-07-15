@@ -18,7 +18,7 @@ async function bootstrap() {
       transform: true, // 요청에서 넘어온 자료들의 형변환
     }),
   );
-  app.useGlobalInterceptors(new TransformInterceptor(), new ResizeImageInterceptor());
+  app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalFilters(new AllExceptionFilter());
 
   // 배포 관련

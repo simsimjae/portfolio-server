@@ -8,6 +8,7 @@ export interface Response<T> {}
 @Injectable()
 export class ResizeImageInterceptor<T> implements NestInterceptor<T, Response<T>> {
   intercept(context: ExecutionContext, next: CallHandler<T>): Observable<Response<T>> {
+    console.log(4444, context);
     return next.handle().pipe(
       map((data) => {
         const obj = classToPlain(data);
