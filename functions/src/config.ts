@@ -41,6 +41,6 @@ export default {
   resizedImagesPath: process.env.RESIZED_IMAGES_PATH,
   includePathList: paramToArray(undefined),
   excludePathList: paramToArray(undefined),
-  deleteOriginalFile: deleteOriginalFile(true),
+  deleteOriginalFile: deleteOriginalFile('false'),
   imageTypes: paramToArray('webp'),
 };
