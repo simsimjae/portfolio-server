@@ -23,13 +23,11 @@ export const PortfolioImageResource = (bucket, path) => {
           filesToDelete: 'image.toDelete',
           // db field name
           key: 'key',
-          size: 'size',
-          mimeType: 'mimeType',
           bucket: 'bucket',
         },
         provider: gcpProvider,
         validation: { mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-        uploadPath: (record, filename) => `${path}/${Date.now()}.${filename.split('.').pop()}`,
+        uploadPath: (record, filename) => `${path}/${Date.now()}`,
       }),
     ],
   };

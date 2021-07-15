@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { AfterLoad, BaseEntity, RelationId, Unique } from 'typeorm';
+import { AfterLoad, BaseEntity, BeforeInsert, RelationId, Unique } from 'typeorm';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Portfolio } from './portfolio.entity';
 
@@ -23,14 +23,6 @@ export class PortfolioImage extends BaseEntity {
   @Column({ nullable: true })
   @Exclude()
   key: string;
-
-  @Column({ nullable: true })
-  @Exclude()
-  size: string;
-
-  @Column({ nullable: true })
-  @Exclude()
-  mimeType: string;
 
   @CreateDateColumn()
   @Exclude()
